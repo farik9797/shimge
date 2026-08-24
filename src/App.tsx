@@ -2,80 +2,70 @@ import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
-import { HomePage } from './components/home/HomePage';
-import { CatalogPage } from './components/catalog/CatalogPage';
-import { ProductDetailPage } from './components/product/ProductDetailPage';
-import { ServicesPage } from './components/services/ServicesPage';
-import { AboutPage } from './components/about/AboutPage';
-import { CertificatesPage } from './components/certificates/CertificatesPage';
-import { NewsArticlesPage } from './components/news/NewsArticlesPage';
-import { FAQPage } from './components/faq/FAQPage';
-import { PartnersPage } from './components/partners/PartnersPage';
-import { ContactsPage } from './components/contacts/ContactsPage';
-import { DeliveryPage } from './components/delivery/DeliveryPage';
-import { CartPage } from './components/cart/CartPage';
-import { CartDrawer } from './components/cart/CartDrawer';
-import { CheckoutPage } from './components/checkout/CheckoutPage';
-import { WishlistPage } from './components/wishlist/WishlistPage';
-import { ComparePage } from './components/compare/ComparePage';
-import { CallbackModal } from './components/common/CallbackModal';
-import { QuickBuyModal } from './components/common/QuickBuyModal';
-import { NotificationToast } from './components/common/NotificationToast';
-import { DataSyncModal } from './components/admin/DataSyncModal';
+import { QuickContactBar } from './components/layout/QuickContactBar';
+import { HomePage } from './components/pages/HomePage';
+import { CatalogPage } from './components/pages/CatalogPage';
+import { IndustriesPage } from './components/pages/IndustriesPage';
+import { AboutPage } from './components/pages/AboutPage';
+import { DeliveryPage } from './components/pages/DeliveryPage';
+import { ContactsPage } from './components/pages/ContactsPage';
+import { ProductDetailModal } from './components/modals/ProductDetailModal';
+import { RfqModal } from './components/modals/RfqModal';
+import { SpecificationDrawer } from './components/modals/SpecificationDrawer';
+import { PumpSelectorModal } from './components/modals/PumpSelectorModal';
+import { CheckCircle2 } from 'lucide-react';
 
-const AppContent: React.FC = () => {
-  const { route } = useApp();
+const MainLayout: React.FC = () => {
+  const { activeTab, toastMessage } = useApp();
 
-  const renderRoute = () => {
-    switch (route) {
+  const renderActiveScreen = () => {
+    switch (activeTab) {
       case 'home':
         return <HomePage />;
       case 'catalog':
         return <CatalogPage />;
-      case 'product':
-        return <ProductDetailPage />;
-      case 'services':
-        return <ServicesPage />;
+      case 'industries':
+        return <IndustriesPage />;
       case 'about':
         return <AboutPage />;
-      case 'certificates':
-        return <CertificatesPage />;
-      case 'news':
-      case 'articles':
-        return <NewsArticlesPage />;
-      case 'faq':
-        return <FAQPage />;
-      case 'partners':
-        return <PartnersPage />;
-      case 'contacts':
-        return <ContactsPage />;
       case 'delivery':
         return <DeliveryPage />;
-      case 'cart':
-        return <CartPage />;
-      case 'checkout':
-        return <CheckoutPage />;
+      case 'contacts':
+        return <ContactsPage />;
       default:
         return <HomePage />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800 flex flex-col font-sans selection:bg-orange-500 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans antialiased selection:bg-[#004B93] selection:text-white">
+      {/* Official SHIMGE Header */}
       <Header />
 
+      {/* Main Catalog / Page Content */}
       <main className="flex-1">
-        {renderRoute()}
+        {renderActiveScreen()}
       </main>
 
+      {/* Official SHIMGE Footer */}
       <Footer />
 
-      {/* Overlays & Modals */}
-      <CartDrawer />
-      <CallbackModal />
-      <QuickBuyModal />
-      <DataSyncModal />
-      <NotificationToast />
+      {/* Floating Quick Action Contacts */}
+      <QuickContactBar />
+
+      {/* Modals & Hydraulic Calculators */}
+      <ProductDetailModal />
+      <PumpSelectorModal />
+      <RfqModal />
+      <SpecificationDrawer />
+
+      {/* Global Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#004B93] text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl border border-blue-400/40 flex items-center space-x-2 animate-in fade-in slide-in-from-bottom-2 duration-150">
+          <CheckCircle2 className="w-4 h-4 text-amber-300 flex-shrink-0" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
     </div>
   );
 };
@@ -83,7 +73,7 @@ const AppContent: React.FC = () => {
 export default function App() {
   return (
     <AppProvider>
-      <AppContent />
+      <MainLayout />
     </AppProvider>
   );
 }

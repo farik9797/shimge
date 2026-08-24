@@ -1,70 +1,96 @@
-export type PageRoute = 
-  | 'home'
-  | 'catalog'
-  | 'product'
-  | 'services'
-  | 'about'
-  | 'certificates'
-  | 'news'
-  | 'articles'
-  | 'faq'
-  | 'partners'
-  | 'contacts'
-  | 'cart'
-  | 'checkout'
-  | 'delivery';
+export type ShimgeCategoryType = 
+  | 'all'
+  | 'submersible-wells'     // Скважинные и глубоководные
+  | 'multistage-vertical'   // Вертикальные многоступенчатые BLT
+  | 'drainage-sewage'       // Дренажные и фекальные WQ
+  | 'circulation-hvac'      // Циркуляционные для отопления XPS/APM
+  | 'surface-centrifugal'   // Поверхностные и самовсасывающие CPM/QB
+  | 'intelligent-booster';  // Автоматические станции повышения давления BWJ/PZ
 
-export type ProductBadge = 'HIT' | 'NEW' | 'DISCOUNT';
+export type ShimgeSeries = 
+  | 'BLT' 
+  | 'WQ' 
+  | '4SGm' 
+  | '6SG' 
+  | 'XPS' 
+  | 'APM' 
+  | 'CPM' 
+  | 'BWJ' 
+  | 'QDX' 
+  | 'PZ' 
+  | 'SHM';
 
 export interface ProductSpec {
   name: string;
   value: string;
+  unit?: string;
+  isKey?: boolean;
 }
 
-export interface Review {
-  id: string;
-  author: string;
-  company?: string;
-  rating: number;
-  date: string;
-  text: string;
-  verified: boolean;
+export interface QhPoint {
+  q: number; // Подача м³/ч
+  h: number; // Напор м
 }
 
 export interface Product {
   id: string;
   sku: string;
   name: string;
-  category: string;
-  brand: string;
-  priceBYN: number;
-  oldPriceBYN?: number;
-  badge?: ProductBadge;
-  discountPercent?: number;
-  rating: number;
-  reviewsCount: number;
-  inStock: boolean;
-  stockCount: number;
+  series: ShimgeSeries;
+  category: ShimgeCategoryType;
+  categoryName: string;
+  subCategory: string;
+  brand: 'SHIMGE';
   image: string;
-  additionalImages: string[];
-  shortDesc: string;
-  fullDesc: string;
+  gallery?: string[];
+  description: string;
+  inStock: boolean;
+  stockCount?: number;
+  deliveryDays?: number;
+  warrantyYears: number;
+  powerKw: number; // Мощность в кВт
+  headMeters: number; // Максимальный / номинальный напор (м)
+  flowRate: number; // Максимальная / номинальная подача (м³/ч)
+  maxPressureBar?: number; // Макс. давление (бар)
+  pipeDiameterInch?: string; // Диаметр патрубков (дюйм / мм)
+  casingMaterial: 'Нержавеющая сталь AISI 304' | 'Нержавеющая сталь AISI 316' | 'Высокопрочный чугун HT200' | 'Технополимер / Латунь';
+  impellerMaterial: 'AISI 304' | 'Чугун HT200' | 'Латунь' | 'PPO (Норил)';
+  liquidTempRange: string;
+  protectionClass: string;
+  isolationClass: string;
   specs: ProductSpec[];
-  tags: string[];
-  warrantyMonths: number;
-  reviews: Review[];
-  isPopular?: boolean;
-  isNew?: boolean;
+  qhCurve?: QhPoint[];
+  industries: ('hvac' | 'water-supply' | 'agriculture' | 'sewage' | 'industry')[];
+  documents?: { title: string; size: string; type: string }[];
+  priceOnRequest?: boolean;
+  estimatedPrice?: string;
 }
 
-export interface Category {
-  id: string;
+export interface IndustrySolution {
+  id: 'water-supply' | 'agriculture' | 'hvac' | 'sewage' | 'industry';
   name: string;
-  slug: string;
-  iconName: string;
-  description: string;
-  productCount: number;
+  title: string;
+  subtitle: string;
   image: string;
+  icon: string;
+  description: string;
+  challenges: string[];
+  recommendedSeries: string[];
+  standardBundles: {
+    title: string;
+    level: 'Базовый' | 'Оптимальный' | 'Интеллектуальный';
+    equipment: string[];
+    description: string;
+    targetTasks: string;
+  }[];
+  recommendedProductIds: string[];
+  caseStudy: {
+    client: string;
+    location: string;
+    task: string;
+    solution: string;
+    result: string;
+  };
 }
 
 export interface CartItem {
@@ -72,95 +98,26 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface FilterState {
-  category: string;
+export interface CatalogFilterState {
+  category: ShimgeCategoryType;
+  series: ShimgeSeries[];
+  inStockOnly: boolean;
+  minPowerKw: number;
+  maxPowerKw: number;
+  minHeadMeters: number;
+  maxHeadMeters: number;
+  minFlowRate: number;
+  maxFlowRate: number;
+  casingMaterial: string[];
   searchQuery: string;
-  priceRange: [number, number];
-  selectedBrands: string[];
-  badges: ProductBadge[];
-  onlyInStock: boolean;
-  sortBy: 'popularity' | 'price-asc' | 'price-desc' | 'newest' | 'rating';
+  sortBy: 'popular' | 'power-asc' | 'power-desc' | 'head-desc' | 'flow-desc' | 'name';
+  viewMode: 'grid' | 'table';
 }
 
-export interface ServiceItem {
-  id: string;
-  title: string;
-  iconName: string;
-  shortDesc: string;
-  fullDesc: string;
-  features: string[];
-  priceStartBYN: number;
-  image: string;
-}
-
-export interface NewsItem {
-  id: string;
-  title: string;
-  date: string;
-  category: string;
-  summary: string;
-  content: string;
-  image: string;
-  readTime: string;
-}
-
-export interface ArticleItem {
-  id: string;
-  title: string;
-  author: string;
-  date: string;
-  summary: string;
-  content: string;
-  image: string;
-  readTime: string;
-  tags: string[];
-}
-
-export interface CertificateItem {
-  id: string;
-  title: string;
-  issuer: string;
-  issueDate: string;
-  validUntil: string;
-  image: string;
-  pdfUrl?: string;
-  category: string;
-}
-
-export interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
-  category: 'delivery' | 'b2b' | 'warranty' | 'tech';
-}
-
-export interface PartnerBrand {
-  id: string;
-  name: string;
-  logo: string;
-  country: string;
-  description: string;
-  website: string;
-  featuredCategory: string;
-}
-
-export interface OrderData {
-  orderId: string;
-  customerType: 'b2c' | 'b2b';
-  fullName: string;
-  phone: string;
-  email: string;
-  companyName?: string;
-  unp?: string;
-  bik?: string;
-  bankAccount?: string;
-  address: string;
-  city: string;
-  deliveryMethod: string;
-  paymentMethod: string;
-  comment?: string;
-  items: CartItem[];
-  totalBYN: number;
-  discountBYN: number;
-  date: string;
-}
+export type PageTab = 
+  | 'home' 
+  | 'catalog' 
+  | 'industries' 
+  | 'about' 
+  | 'delivery' 
+  | 'contacts';

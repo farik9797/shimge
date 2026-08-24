@@ -1,154 +1,70 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { PageRoute } from '../../types';
 import { 
-  Volume2, Phone, Mail, MapPin, Clock, Send, ShieldCheck, 
-  CreditCard, CheckCircle2, FileText, ArrowUp 
+  Phone, 
+  Mail, 
+  MapPin, 
+  ExternalLink,
+  Clock
 } from 'lucide-react';
-import { MOCK_CATEGORIES } from '../../data/mockData';
+import { PageTab, ShimgeSeries } from '../../types';
 
 export const Footer: React.FC = () => {
-  const { setRoute, setFilters, setIsCallbackOpen, showNotification } = useApp();
-  const [email, setEmail] = useState('');
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    showNotification('Вы успешно подписались на акции и спецпредложения!', 'success');
-    setEmail('');
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const { setActiveTab, selectSeries } = useApp();
 
   return (
-    <footer className="bg-slate-950 text-slate-300 pt-16 pb-8 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Top Feature Banner */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-12 mb-12 border-b border-slate-800">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-500/10 text-orange-400 rounded-2xl border border-orange-500/20">
-              <ShieldCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white">Официальная гарантия</h4>
-              <p className="text-xs text-slate-400">Гарантия до 36 месяцев от дилера</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-500/10 text-orange-400 rounded-2xl border border-orange-500/20">
-              <FileText className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white">Работаем с НДС 20%</h4>
-              <p className="text-xs text-slate-400">Полный пакет документов для ЮР лиц</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-500/10 text-orange-400 rounded-2xl border border-orange-500/20">
-              <CreditCard className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white">Быстрая доставка</h4>
-              <p className="text-xs text-slate-400">По всей Беларуси за 24-48 часов</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-500/10 text-orange-400 rounded-2xl border border-orange-500/20">
-              <CheckCircle2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm font-bold text-white">Собственный сервис</h4>
-              <p className="text-xs text-slate-400">Авторизованный ремонт в Минске</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Footer Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12 border-b border-slate-800">
-          {/* Column 1: Company Profile */}
-          <div className="lg:col-span-2 space-y-4">
-            <div 
-              onClick={() => setRoute('home')}
-              className="flex items-center gap-3 cursor-pointer"
-            >
-              <div className="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center text-white font-bold">
-                <Volume2 className="w-6 h-6" />
-              </div>
-              <div>
-                <span className="text-xl font-extrabold text-white block leading-none">
-                  ООО «Арт-Медиа <span className="text-orange-500">Трейд»</span>
-                </span>
-                <span className="text-xs text-slate-400">Официальный сайт mzvuk.by</span>
+    <footer className="bg-slate-50 border-t border-slate-200 text-slate-700">
+      
+      {/* Upper Footer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+          
+          {/* Column 1: Brand */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="flex items-center space-x-3">
+              <img
+                src="/images/shimge-logo.png"
+                alt="SHIMGE for better life"
+                className="h-10 w-auto object-contain"
+              />
+              <div className="pl-3 border-l border-slate-200 leading-tight">
+                <span className="font-extrabold text-slate-900 text-xs tracking-tight block">SHIMGE UZBEKISTAN</span>
+                <span className="text-[10px] text-slate-400 font-semibold">Каталог насосного оборудования</span>
               </div>
             </div>
 
-            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              Поставка, проектирование, инсталляция и гарантийное обслуживание профессионального звукового, акустического и музыкального оборудования на территории Республики Беларусь.
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Поставки насосного оборудования SHIMGE в Узбекистане. Вертикальные, скважинные, дренажные, канализационные и циркуляционные насосы.
             </p>
 
-            <div className="space-y-2 text-xs text-slate-300 pt-2">
-              <a href="tel:+375333772873" className="flex items-center gap-2 hover:text-orange-400 font-bold">
-                <Phone className="w-4 h-4 text-orange-500" />
-                +375 (33) 377-28-73
-              </a>
-              <a href="mailto:sales@mzvuk.by" className="flex items-center gap-2 hover:text-orange-400">
-                <Mail className="w-4 h-4 text-slate-400" />
-                sales@mzvuk.by
-              </a>
-              <p className="flex items-center gap-2 text-slate-400">
-                <MapPin className="w-4 h-4 text-slate-400" />
-                Республика Беларусь, г. Минск
-              </p>
-              <p className="flex items-center gap-2 text-slate-400">
-                <Clock className="w-4 h-4 text-slate-400" />
-                Пн-Пт: 09:00 - 18:00 (Сб-Вс: выходной)
-              </p>
+            <div className="pt-1 flex items-center space-x-3 text-xs text-slate-600">
+              <span className="inline-flex items-center text-[11px] font-bold text-[#007682] bg-[#EBF8F9] px-2.5 py-1 rounded-lg border border-[#B5E7EC]">
+                ✓ CNAS Lab Certified
+              </span>
+              <span className="inline-flex items-center text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                ✓ O'zStandart
+              </span>
             </div>
           </div>
 
-          {/* Column 2: Catalog Categories */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4">Каталог</h4>
-            <ul className="space-y-2 text-xs">
-              {MOCK_CATEGORIES.slice(0, 6).map(cat => (
-                <li key={cat.id}>
-                  <button
-                    onClick={() => {
-                      setFilters(prev => ({ ...prev, category: cat.id }));
-                      setRoute('catalog');
-                    }}
-                    className="hover:text-orange-400 transition-colors text-left"
-                  >
-                    {cat.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Navigation */}
-          <div>
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-4">Информация</h4>
+          {/* Column 2: Popular Series */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Популярные серии
+            </h4>
             <ul className="space-y-2 text-xs">
               {[
-                { id: 'about', label: 'О компании' },
-                { id: 'services', label: 'Услуги и монтаж' },
-                { id: 'certificates', label: 'Сертификаты' },
-                { id: 'news', label: 'Новости и статьи' },
-                { id: 'faq', label: 'Частые вопросы (FAQ)' },
-                { id: 'partners', label: 'Бренды-партнёры' },
-                { id: 'delivery', label: 'Оплата и доставка' },
-                { id: 'contacts', label: 'Контакты' },
-              ].map(item => (
-                <li key={item.id}>
+                { s: 'BLT' as ShimgeSeries, label: 'BLT (Вертикальные AISI 304/316)' },
+                { s: '4SGm' as ShimgeSeries, label: '4SGm (Скважинные насосы 4")' },
+                { s: '6SG' as ShimgeSeries, label: '200QJ / 6SG (Глубинные насосы)' },
+                { s: 'WQ' as ShimgeSeries, label: 'WQ / WQD (Канализационные)' },
+                { s: 'APM' as ShimgeSeries, label: 'APM Smart (Отопление класс А)' },
+                { s: 'BWJ' as ShimgeSeries, label: 'BWJ (Инверторные станции)' },
+              ].map((item) => (
+                <li key={item.s}>
                   <button
-                    onClick={() => setRoute(item.id as PageRoute)}
-                    className="hover:text-orange-400 transition-colors text-left"
+                    onClick={() => selectSeries(item.s)}
+                    className="text-slate-600 hover:text-[#0096A6] transition-colors"
                   >
                     {item.label}
                   </button>
@@ -157,63 +73,81 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 4: Newsletter & Callback */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-2">Получать спецпредложения</h4>
-            <p className="text-xs text-slate-400">
-              Подпишитесь на свежие поступления микрофонов, акустики и акции.
-            </p>
+          {/* Column 3: Site Navigation */}
+          <div className="lg:col-span-2 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Меню
+            </h4>
+            <ul className="space-y-2 text-xs">
+              {[
+                { label: 'Главная', tab: 'home' as PageTab },
+                { label: 'Каталог насосов', tab: 'catalog' as PageTab },
+                { label: 'Отраслевые решения', tab: 'industries' as PageTab },
+                { label: 'О бренде SHIMGE', tab: 'about' as PageTab },
+                { label: 'Доставка и оплата', tab: 'delivery' as PageTab },
+                { label: 'Контакты', tab: 'contacts' as PageTab },
+              ].map((item) => (
+                <li key={item.tab}>
+                  <button
+                    onClick={() => { setActiveTab(item.tab); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="text-slate-600 hover:text-[#0096A6] transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <form onSubmit={handleSubscribe} className="space-y-2">
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                placeholder="sales@company.by"
-                className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white outline-none focus:border-orange-500"
-              />
-              <button
-                type="submit"
-                className="w-full py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-colors"
-              >
-                <Send className="w-3.5 h-3.5" /> Подписаться
-              </button>
-            </form>
-
-            <div className="pt-2">
-              <button
-                onClick={() => setIsCallbackOpen(true)}
-                className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-orange-400 font-bold rounded-xl text-xs border border-slate-700 transition-colors"
-              >
-                Запросить консультацию
-              </button>
+          {/* Column 4: Contact & Office */}
+          <div className="lg:col-span-3 space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+              Контакты
+            </h4>
+            <div className="space-y-2.5 text-xs text-slate-600">
+              <div className="flex items-start space-x-2">
+                <MapPin className="w-4 h-4 text-[#0096A6] flex-shrink-0 mt-0.5" />
+                <span>г. Ташкент, Алмазарский район</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Phone className="w-4 h-4 text-[#00A859] flex-shrink-0" />
+                <a href="tel:+998712000055" className="font-bold text-slate-900 hover:text-[#0096A6]">
+                  +998 (71) 200-00-55
+                </a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Mail className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                <a href="mailto:info@shimge.uz" className="text-slate-600 hover:text-[#0096A6]">
+                  info@shimge.uz
+                </a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Clock className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                <span>Пн-Пт: 9:00 – 18:00</span>
+              </div>
             </div>
           </div>
+
         </div>
+      </div>
 
-        {/* Bottom Bar Requisites & Copyright */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      {/* Bottom Bar */}
+      <div className="border-t border-slate-200 bg-white py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <div>
-            <p>© 2026 ООО «Арт-Медиа Трейд» (mzvuk.by). Все права защищены.</p>
-            <p className="text-[11px] mt-0.5">УНП 193... • Зарегистрировано Минским горисполкомом. Цены указаны в BYN с НДС 20%.</p>
+            © 1984–{new Date().getFullYear()} SHIMGE PUMP INDUSTRY GROUP. Каталог насосного оборудования.
           </div>
-
-          <div className="flex items-center gap-4 text-xs">
-            <span className="px-2 py-1 bg-slate-900 rounded border border-slate-800 text-slate-400 font-mono">ЕРИП</span>
-            <span className="px-2 py-1 bg-slate-900 rounded border border-slate-800 text-slate-400 font-mono">VISA / MC</span>
-            <span className="px-2 py-1 bg-slate-900 rounded border border-slate-800 text-slate-400 font-mono">Безнал (НДС)</span>
-            
-            <button
-              onClick={scrollToTop}
-              className="p-2 bg-slate-900 hover:bg-orange-600 text-slate-300 hover:text-white rounded-xl border border-slate-800 transition-colors"
-              title="Наверх"
-            >
-              <ArrowUp className="w-4 h-4" />
-            </button>
+          <div className="flex items-center space-x-4">
+            <span>Все права защищены</span>
+            <span>•</span>
+            <a href="https://ru.shimgepump.com/" target="_blank" rel="noopener noreferrer" className="text-[#0096A6] hover:underline flex items-center space-x-1">
+              <span>ru.shimgepump.com</span>
+              <ExternalLink className="w-3 h-3" />
+            </a>
           </div>
         </div>
       </div>
+
     </footer>
   );
 };
