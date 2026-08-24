@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 export const SpecificationDrawer: React.FC = () => {
-  const { isCartOpen, setIsCartOpen, cart, updateQuantity, removeFromCart, clearCart, openRfqModal, showToast } = useApp();
+  const { isCartOpen, setIsCartOpen, cart, updateCartQuantity, removeFromCart, clearCart, openRfqModal, showToast } = useApp();
 
   if (!isCartOpen) return null;
 
@@ -104,14 +104,14 @@ export const SpecificationDrawer: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center border border-slate-300 rounded-xl bg-white p-0.5">
                       <button
-                        onClick={() => updateQuantity(product.id, quantity - 1)}
+                        onClick={() => updateCartQuantity(product.id, quantity - 1)}
                         className="p-1 text-slate-500 hover:text-slate-900 rounded-lg"
                       >
                         <Minus className="w-3 h-3" />
                       </button>
                       <span className="px-2 text-xs font-bold text-slate-800">{quantity}</span>
                       <button
-                        onClick={() => updateQuantity(product.id, quantity + 1)}
+                        onClick={() => updateCartQuantity(product.id, quantity + 1)}
                         className="p-1 text-slate-500 hover:text-slate-900 rounded-lg"
                       >
                         <Plus className="w-3 h-3" />

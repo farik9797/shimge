@@ -87,16 +87,18 @@ export interface FilterState {
   maxFlowRate: number;
   casingMaterial: string[];
   searchQuery: string;
-  sortBy: 'popular' | 'price-asc' | 'price-desc' | 'head-desc' | 'flow-desc';
-  viewMode?: 'grid' | 'list';
+  sortBy: 'popular' | 'price-asc' | 'price-desc' | 'head-desc' | 'flow-desc' | 'power-asc' | 'power-desc' | 'name';
+  viewMode?: 'grid' | 'table' | 'list';
 }
 
 export type CatalogFilterState = FilterState;
 
 export type PageTab = 'home' | 'catalog' | 'industries' | 'about' | 'delivery' | 'contacts';
 
+export type IndustryId = 'water-supply' | 'industry' | 'hvac' | 'agriculture' | 'sewage';
+
 export interface IndustrySolution {
-  id: string;
+  id: IndustryId;
   name: string;
   title: string;
   subtitle: string;
