@@ -53,44 +53,21 @@ export interface Product {
   flowRate: number; // Максимальная / номинальная подача (м³/ч)
   maxPressureBar?: number; // Макс. давление (бар)
   pipeDiameterInch?: string; // Диаметр патрубков (дюйм / мм)
-  casingMaterial: 'Нержавеющая сталь AISI 304' | 'Нержавеющая сталь AISI 316' | 'Высокопрочный чугун HT200' | 'Технополимер / Латунь';
-  impellerMaterial: 'AISI 304' | 'Чугун HT200' | 'Латунь' | 'PPO (Норил)';
+  casingMaterial: string;
+  impellerMaterial: string;
   liquidTempRange: string;
   protectionClass: string;
   isolationClass: string;
-  specs: ProductSpec[];
-  qhCurve?: QhPoint[];
-  industries: ('hvac' | 'water-supply' | 'agriculture' | 'sewage' | 'industry')[];
-  documents?: { title: string; size: string; type: string }[];
   priceOnRequest?: boolean;
-  estimatedPrice?: string;
-}
-
-export interface IndustrySolution {
-  id: 'water-supply' | 'agriculture' | 'hvac' | 'sewage' | 'industry';
-  name: string;
-  title: string;
-  subtitle: string;
-  image: string;
-  icon: string;
-  description: string;
-  challenges: string[];
-  recommendedSeries: string[];
-  standardBundles: {
+  estimatedPrice: string; // В сумах
+  industries: string[];
+  specs?: ProductSpec[];
+  qhCurve?: QhPoint[];
+  documents?: {
     title: string;
-    level: 'Базовый' | 'Оптимальный' | 'Интеллектуальный';
-    equipment: string[];
-    description: string;
-    targetTasks: string;
+    size: string;
+    type: 'PDF' | 'CAD' | 'DOC';
   }[];
-  recommendedProductIds: string[];
-  caseStudy: {
-    client: string;
-    location: string;
-    task: string;
-    solution: string;
-    result: string;
-  };
 }
 
 export interface CartItem {
@@ -98,7 +75,7 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface CatalogFilterState {
+export interface FilterState {
   category: ShimgeCategoryType;
   series: ShimgeSeries[];
   inStockOnly: boolean;
@@ -110,14 +87,37 @@ export interface CatalogFilterState {
   maxFlowRate: number;
   casingMaterial: string[];
   searchQuery: string;
-  sortBy: 'popular' | 'power-asc' | 'power-desc' | 'head-desc' | 'flow-desc' | 'name';
-  viewMode: 'grid' | 'table';
+  sortBy: 'popular' | 'price-asc' | 'price-desc' | 'head-desc' | 'flow-desc';
+  viewMode?: 'grid' | 'list';
 }
 
-export type PageTab = 
-  | 'home' 
-  | 'catalog' 
-  | 'industries' 
-  | 'about' 
-  | 'delivery' 
-  | 'contacts';
+export type CatalogFilterState = FilterState;
+
+export type PageTab = 'home' | 'catalog' | 'industries' | 'about' | 'delivery' | 'contacts';
+
+export interface IndustrySolution {
+  id: string;
+  name: string;
+  title: string;
+  subtitle: string;
+  icon: string;
+  image: string;
+  description: string;
+  challenges: string[];
+  recommendedSeries: ShimgeSeries[];
+  standardBundles: {
+    title: string;
+    level: string;
+    targetTasks: string;
+    equipment: string[];
+    description: string;
+  }[];
+  recommendedProductIds: string[];
+  caseStudy: {
+    client: string;
+    location: string;
+    task: string;
+    solution: string;
+    result: string;
+  };
+}
