@@ -68,10 +68,19 @@ export const Header: React.FC = () => {
             </span>
           </div>
 
-          <div className="flex items-center space-x-4 text-xs font-semibold">
-            <a href="tel:+998712000055" className="text-[#0096A6] hover:text-[#007682] font-bold flex items-center space-x-1">
+          <div className="flex items-center space-x-3 text-xs font-semibold">
+            <a 
+              href="https://t.me/Rustamshimge" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hidden sm:inline-flex items-center space-x-1 text-[#229ED9] hover:underline"
+            >
+              <Send className="w-3 h-3" />
+              <span>Telegram</span>
+            </a>
+            <a href="tel:+998977433738" className="text-[#0096A6] hover:text-[#007682] font-bold flex items-center space-x-1">
               <Phone className="w-3.5 h-3.5 text-[#00A859]" />
-              <span>+998 (71) 200-00-55</span>
+              <span>+998 97 743 37 38</span>
             </a>
           </div>
         </div>

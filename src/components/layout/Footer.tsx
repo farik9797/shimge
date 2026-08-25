@@ -2,12 +2,14 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { 
   Phone, 
-  Mail, 
   MapPin, 
   Clock, 
   ShieldCheck, 
   Award, 
-  CheckCircle2
+  CheckCircle2,
+  Send,
+  Instagram,
+  Navigation
 } from 'lucide-react';
 import { ShimgeCategoryType } from '../../types';
 
@@ -70,8 +72,34 @@ export const Footer: React.FC = () => {
               Промышленные многоступенчатые насосы BLT, скважинные 4SGm, фекальные WQ и энергосберегающие циркуляционные насосы APM.
             </p>
 
-            <div className="text-xs text-slate-400 font-mono">
-              Поставка инженерным компаниям, ЖКХ, агрохолдингам и строительным организациям.
+            <div className="pt-2 flex items-center space-x-3">
+              <a
+                href="https://t.me/Officialshimge"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-xl bg-[#229ED9] text-white flex items-center justify-center hover:scale-105 transition-transform"
+                title="Официальный Telegram SHIMGE"
+              >
+                <Send className="w-4 h-4 -translate-x-0.5 translate-y-0.5" />
+              </a>
+              <a
+                href="https://www.instagram.com/shimge_uzbekistan_rasmiy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center hover:scale-105 transition-transform"
+                title="Официальный Instagram"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a
+                href="https://yandex.uz/maps/-/CTDIrDl7"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center hover:scale-105 transition-transform"
+                title="Локация на Яндекс.Картах"
+              >
+                <Navigation className="w-4 h-4" />
+              </a>
             </div>
           </div>
 
@@ -142,31 +170,51 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 4: Contact & Office */}
+          {/* Column 4: Real Contacts */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-              Контакты
+              Контакты отдела продаж
             </h4>
             <div className="space-y-2.5 text-xs text-slate-600">
-              <div className="flex items-start space-x-2">
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-3.5 h-3.5 text-[#00A859] flex-shrink-0" />
+                  <a href="tel:+998977433738" className="font-bold text-slate-900 hover:text-[#0096A6]">
+                    +998 97 743 37 38
+                  </a>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-3.5 h-3.5 text-[#00A859] flex-shrink-0" />
+                  <a href="tel:+998935148014" className="font-bold text-slate-900 hover:text-[#0096A6]">
+                    +998 93 514 80 14
+                  </a>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Phone className="w-3.5 h-3.5 text-[#00A859] flex-shrink-0" />
+                  <a href="tel:+998946165159" className="font-bold text-slate-900 hover:text-[#0096A6]">
+                    +998 94 616 51 59
+                  </a>
+                </div>
+              </div>
+
+              <div className="pt-1 flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-[#0096A6] flex-shrink-0 mt-0.5" />
-                <span>г. Ташкент, Алмазарский район</span>
+                <div>
+                  <span className="block">г. Ташкент, Алмазарский район</span>
+                  <a 
+                    href="https://yandex.uz/maps/-/CTDIrDl7" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#0096A6] font-bold hover:underline inline-flex items-center space-x-1"
+                  >
+                    <span>Локация на Яндекс.Картах</span>
+                  </a>
+                </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4 text-[#00A859] flex-shrink-0" />
-                <a href="tel:+998712000055" className="font-bold text-slate-900 hover:text-[#0096A6]">
-                  +998 (71) 200-00-55
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                <a href="mailto:info@shimge.uz" className="text-slate-600 hover:text-[#0096A6]">
-                  info@shimge.uz
-                </a>
-              </div>
+
               <div className="flex items-center space-x-2">
                 <Clock className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                <span>Пн-Пт: 9:00 – 18:00</span>
+                <span>Пн-Сб: 9:00 – 18:00</span>
               </div>
             </div>
           </div>
@@ -174,16 +222,16 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Bar (Без внешних ссылок) */}
+      {/* Bottom Bar */}
       <div className="border-t border-slate-200 bg-white py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <div>
-            © 1984–{new Date().getFullYear()} SHIMGE PUMP INDUSTRY GROUP. Каталог насосного оборудования.
+            © 1984–{new Date().getFullYear()} SHIMGE PUMP INDUSTRY GROUP. Официальный каталог в Узбекистане.
           </div>
           <div className="flex items-center space-x-4">
             <span>Все права защищены</span>
             <span>•</span>
-            <span className="text-[#0096A6] font-bold">SHIMGE Pump Industry</span>
+            <span className="text-[#0096A6] font-bold">SHIMGE Uzbekistan</span>
           </div>
         </div>
       </div>
