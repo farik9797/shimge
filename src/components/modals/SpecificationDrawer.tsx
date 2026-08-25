@@ -20,101 +20,163 @@ export const SpecificationDrawer: React.FC = () => {
 
   const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Реальный экспорт спецификации в файл Excel (CSV с UTF-8 BOM для корректного открытия в Microsoft Excel)
+  // Настоящий экспорт в Excel (.xls) с четким разделением по отдельным колонкам и ячейкам
   const handleExportSpecification = () => {
     if (cart.length === 0) {
       showToast('Спецификация пуста, добавьте товары');
       return;
     }
 
-    const dateStr = new Date().toLocaleDateString('ru-RU').replace(/\./g, '_');
+    const dateStr = new Date().toLocaleDateString('ru-RU');
     const timeStr = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    const fileNameDate = dateStr.replace(/\./g, '_');
 
-    // Формируем структуру Excel-совместимого CSV файла
-    const rows = [
-      ['СПЕЦИФИКАЦИЯ НАСОСНОГО ОБОРУДОВАНИЯ SHIMGE UZBEKISTAN'],
-      [`Дата формирования: ${new Date().toLocaleDateString('ru-RU')} ${timeStr}`],
-      ['Поставщик: Официальный каталог SHIMGE (ООО «Gidromaks Pro»), г. Ташкент'],
-      ['Контакты: +998 (71) 200-00-55 | info@shimge.uz | https://shimge-uz.vercel.app'],
-      [], // Пустая строка
-      [
-        '№',
-        'Серия',
-        'Артикул (SKU)',
-        'Наименование оборудования',
-        'Категория применения',
-        'Напор H (м)',
-        'Подача Q (м³/ч)',
-        'Мощность (кВт)',
-        'Материал проточной части',
-        'Количество (шт)',
-        'Оптовая цена за ед. (сум)',
-        'Гарантия'
-      ]
-    ];
+    // Формируем полноценную разметку Excel-книги с точным разделением по колонкам и стилями SHIMGE
+    const excelHtml = `
+      <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+            xmlns:x="urn:schemas-microsoft-com:office:excel" 
+            xmlns="http://www.w3.org/TR/REC-html40">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <!--[if gte mso 9]>
+        <xml>
+          <x:ExcelWorkbook>
+            <x:ExcelWorksheets>
+              <x:ExcelWorksheet>
+                <x:Name>Спецификация SHIMGE</x:Name>
+                <x:WorksheetOptions>
+                  <x:DisplayGridlines/>
+                  <x:FitToPage/>
+                </x:WorksheetOptions>
+              </x:ExcelWorksheet>
+            </x:ExcelWorksheets>
+          </x:ExcelWorkbook>
+        </xml>
+        <![endif]-->
+        <style>
+          body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; color: #1E293B; }
+          .header-title { font-size: 16pt; font-weight: bold; color: #007682; text-align: left; height: 35px; }
+          .meta-info { font-size: 10pt; color: #475569; }
+          table { border-collapse: collapse; width: 100%; }
+          th { 
+            background-color: #0096A6; 
+            color: #FFFFFF; 
+            font-weight: bold; 
+            text-align: center; 
+            border: 1px solid #007682; 
+            padding: 10px 8px;
+            font-size: 10pt;
+          }
+          td { 
+            border: 1px solid #CBD5E1; 
+            padding: 8px 6px; 
+            font-size: 10pt; 
+            vertical-align: middle; 
+          }
+          .num-col { text-align: center; font-weight: bold; }
+          .series-col { text-align: center; font-weight: bold; color: #007682; }
+          .sku-col { text-align: left; font-family: Consolas, monospace; font-weight: bold; }
+          .name-col { text-align: left; font-weight: 500; }
+          .spec-col { text-align: center; }
+          .qty-col { text-align: center; font-weight: bold; font-size: 11pt; color: #0F172A; }
+          .price-col { text-align: right; font-weight: bold; color: #007682; }
+          .total-row { 
+            background-color: #EBF8F9; 
+            font-weight: bold; 
+            border-top: 2px solid #0096A6; 
+            border-bottom: 2px solid #0096A6; 
+          }
+          .total-label { text-align: right; font-size: 11pt; color: #007682; padding-right: 15px; }
+          .total-value { text-align: center; font-size: 12pt; font-weight: bold; color: #007682; }
+          .notice-row { font-size: 9pt; color: #64748B; font-style: italic; background-color: #F8FAFC; }
+        </style>
+      </head>
+      <body>
+        <table>
+          <!-- Шапка документа -->
+          <tr>
+            <td colspan="11" class="header-title">
+              СПЕЦИФИКАЦИЯ НАСОСНОГО ОБОРУДОВАНИЯ SHIMGE UZBEKISTAN
+            </td>
+          </tr>
+          <tr>
+            <td colspan="11" class="meta-info">
+              Дата выгрузки: <b>${dateStr} в ${timeStr}</b> | Официальный каталог: <b>https://shimge-uz.vercel.app</b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="11" class="meta-info">
+              Поставщик: <b>ООО «Gidromaks Pro»</b>, г. Ташкент | Тел: <b>+998 (71) 200-00-55</b> | Email: <b>info@shimge.uz</b>
+            </td>
+          </tr>
+          <tr><td colspan="11" style="height: 10px; border: none;"></td></tr>
 
-    cart.forEach((item, index) => {
-      rows.push([
-        (index + 1).toString(),
-        `"${item.product.series}"`,
-        `"${item.product.sku}"`,
-        `"${item.product.name.replace(/"/g, '""')}"`,
-        `"${item.product.subCategory || item.product.categoryName}"`,
-        `"${item.product.headMeters}"`,
-        `"${item.product.flowRate}"`,
-        `"${item.product.powerKw}"`,
-        `"${item.product.casingMaterial}"`,
-        item.quantity.toString(),
-        `"${item.product.estimatedPrice || 'По запросу'}"`,
-        `"${item.product.warrantyYears} года"`
-      ]);
-    });
+          <!-- Заголовки колонок таблицы (строго раздельные столбцы) -->
+          <thead>
+            <tr>
+              <th style="width: 40px;">№</th>
+              <th style="width: 70px;">Серия</th>
+              <th style="width: 140px;">Артикул (SKU)</th>
+              <th style="width: 280px;">Наименование оборудования</th>
+              <th style="width: 170px;">Категория</th>
+              <th style="width: 80px;">Напор H (м)</th>
+              <th style="width: 90px;">Подача Q (м³/ч)</th>
+              <th style="width: 90px;">Мощность (кВт)</th>
+              <th style="width: 150px;">Материал корпуса</th>
+              <th style="width: 80px;">Кол-во (шт)</th>
+              <th style="width: 130px;">Оптовая цена (сум)</th>
+            </tr>
+          </thead>
 
-    // Строка ИТОГО
-    rows.push([]);
-    rows.push([
-      'ИТОГО',
-      '',
-      '',
-      `Всего позиций: ${cart.length}, Единиц оборудования: ${totalItemsCount} шт.`,
-      '',
-      '',
-      '',
-      '',
-      '',
-      totalItemsCount.toString(),
-      '',
-      ''
-    ]);
-    rows.push([
-      'ПРИМЕЧАНИЕ',
-      '',
-      '',
-      'Цены включают НДС 12%. Доставка со склада в г. Ташкент по всем регионам Узбекистана.',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      ''
-    ]);
+          <!-- Строки с товарами -->
+          <tbody>
+            ${cart.map((item, index) => `
+              <tr>
+                <td class="num-col">${index + 1}</td>
+                <td class="series-col">${item.product.series}</td>
+                <td class="sku-col">${item.product.sku}</td>
+                <td class="name-col">${item.product.name}</td>
+                <td>${item.product.subCategory || item.product.categoryName}</td>
+                <td class="spec-col">${item.product.headMeters}</td>
+                <td class="spec-col">${item.product.flowRate}</td>
+                <td class="spec-col">${item.product.powerKw}</td>
+                <td>${item.product.casingMaterial}</td>
+                <td class="qty-col">${item.quantity}</td>
+                <td class="price-col">${item.product.estimatedPrice || 'По запросу'}</td>
+              </tr>
+            `).join('')}
 
-    // Преобразуем массив в CSV с разделителем точка с запятой (стандарт для Excel в RU регионе) и UTF-8 BOM
-    const csvContent = '\uFEFF' + rows.map(row => row.join(';')).join('\r\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            <!-- Итоговая строка -->
+            <tr class="total-row">
+              <td colspan="9" class="total-label">ИТОГО ЕДИНИЦ ОБОРУДОВАНИЯ К ОТГРУЗКЕ:</td>
+              <td class="total-value">${totalItemsCount} шт.</td>
+              <td style="text-align: right; color: #007682; font-weight: bold;">(с НДС 12%)</td>
+            </tr>
+
+            <!-- Примечания к спецификации -->
+            <tr class="notice-row">
+              <td colspan="11">
+                * Условия поставки: со склада в г. Ташкент. Гарантия завода-изготовителя SHIMGE Pump Industry — 24 месяца.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </body>
+      </html>
+    `;
+
+    // Создаем Blob для Excel-файла
+    const blob = new Blob(['\uFEFF' + excelHtml], { type: 'application/vnd.ms-excel;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', `SHIMGE_Specifikaciya_${dateStr}.csv`);
+    link.href = url;
+    link.download = `SHIMGE_Specifikaciya_${fileNameDate}.xls`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
-    showToast(`Файл «SHIMGE_Specifikaciya_${dateStr}.csv» успешно выгружен!`);
+    showToast(`Спецификация выгружена в Excel: «SHIMGE_Specifikaciya_${fileNameDate}.xls»`);
   };
 
   return (
@@ -245,7 +307,7 @@ export const SpecificationDrawer: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-2.5">
               
-              {/* Реальный экспорт в Excel */}
+              {/* Скачать в Excel с четкими колонками */}
               <button
                 onClick={handleExportSpecification}
                 className="py-3 px-3 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-2 shadow-2xs hover:shadow-md hover:border-slate-400"
