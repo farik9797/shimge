@@ -81,11 +81,11 @@ export const AboutPage: React.FC = () => {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+              <div className="rounded-3xl overflow-hidden shadow-md border border-slate-200 bg-slate-100 group">
                 <img
-                  src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
-                  alt="Завод SHIMGE"
-                  className="w-full h-72 object-cover"
+                  src="/images/shimge-factory-hq.jpg"
+                  alt="Главный производственный комплекс и штаб-квартира SHIMGE Pump Industry"
+                  className="w-full h-80 object-cover group-hover:scale-103 transition-transform duration-500"
                 />
               </div>
             </div>
