@@ -4,98 +4,141 @@ import {
   Phone, 
   Mail, 
   MapPin, 
-  ExternalLink,
-  Clock
+  Clock, 
+  ShieldCheck, 
+  Award, 
+  CheckCircle2
 } from 'lucide-react';
-import { PageTab, ShimgeSeries } from '../../types';
+import { ShimgeCategoryType } from '../../types';
 
 export const Footer: React.FC = () => {
-  const { setActiveTab, selectSeries } = useApp();
+  const { setActiveTab, selectCategory } = useApp();
 
   return (
     <footer className="bg-slate-50 border-t border-slate-200 text-slate-700">
       
-      {/* Upper Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
-          
-          {/* Column 1: Brand */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center space-x-3">
-              <img
-                src="/images/shimge-logo.png"
-                alt="SHIMGE for better life"
-                className="h-10 w-auto object-contain"
-              />
-              <div className="pl-3 border-l border-slate-200 leading-tight">
-                <span className="font-extrabold text-slate-900 text-xs tracking-tight block">SHIMGE UZBEKISTAN</span>
-                <span className="text-[10px] text-slate-400 font-semibold">Каталог насосного оборудования</span>
-              </div>
+      {/* Top Value Strip in Brand Teal Light Tint */}
+      <div className="bg-[#EBF8F9] border-b border-[#B5E7EC] py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-[#B5E7EC] flex items-center justify-center text-[#0096A6] shadow-2xs">
+              <ShieldCheck className="w-5 h-5 text-[#0096A6]" />
             </div>
-
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Поставки насосного оборудования SHIMGE в Узбекистане. Вертикальные, скважинные, дренажные, канализационные и циркуляционные насосы.
-            </p>
-
-            <div className="pt-1 flex items-center space-x-3 text-xs text-slate-600">
-              <span className="inline-flex items-center text-[11px] font-bold text-[#007682] bg-[#EBF8F9] px-2.5 py-1 rounded-lg border border-[#B5E7EC]">
-                ✓ CNAS Lab Certified
-              </span>
-              <span className="inline-flex items-center text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                ✓ O'zStandart
-              </span>
+            <div>
+              <span className="font-bold text-slate-900 block">Прямые поставки с завода</span>
+              <span className="text-slate-500">100% оригинальное оборудование SHIMGE</span>
             </div>
           </div>
 
-          {/* Column 2: Popular Series */}
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-[#B5E7EC] flex items-center justify-center text-[#0096A6] shadow-2xs">
+              <Award className="w-5 h-5 text-[#0096A6]" />
+            </div>
+            <div>
+              <span className="font-bold text-slate-900 block">Официальная гарантия 24 месяца</span>
+              <span className="text-slate-500">Сервисный центр и запчасти в Ташкенте</span>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-[#B5E7EC] flex items-center justify-center text-[#0096A6] shadow-2xs">
+              <CheckCircle2 className="w-5 h-5 text-[#0096A6]" />
+            </div>
+            <div>
+              <span className="font-bold text-slate-900 block">Складской запас в наличии</span>
+              <span className="text-slate-500">Быстрая отгрузка по всему Узбекистану</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Footer Links */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+          
+          {/* Column 1: Brand & Description */}
+          <div className="lg:col-span-4 space-y-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-2xl font-black text-[#0096A6] tracking-tight">SHIMGE</span>
+              <span className="text-xs bg-[#EBF8F9] text-[#007682] border border-[#B5E7EC] font-bold px-2 py-0.5 rounded">
+                UZBEKISTAN
+              </span>
+            </div>
+
+            <p className="text-xs text-slate-500 leading-relaxed max-w-sm">
+              Официальный каталог насосного оборудования SHIMGE в Республике Узбекистан. 
+              Промышленные многоступенчатые насосы BLT, скважинные 4SGm, фекальные WQ и энергосберегающие циркуляционные насосы APM.
+            </p>
+
+            <div className="text-xs text-slate-400 font-mono">
+              Поставка инженерным компаниям, ЖКХ, агрохолдингам и строительным организациям.
+            </div>
+          </div>
+
+          {/* Column 2: Equipment Catalog Navigation */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-              Популярные серии
+              Каталог оборудования
             </h4>
             <ul className="space-y-2 text-xs">
               {[
-                { s: 'BLT' as ShimgeSeries, label: 'BLT (Вертикальные AISI 304/316)' },
-                { s: '4SGm' as ShimgeSeries, label: '4SGm (Скважинные насосы 4")' },
-                { s: '6SG' as ShimgeSeries, label: '200QJ / 6SG (Глубинные насосы)' },
-                { s: 'WQ' as ShimgeSeries, label: 'WQ / WQD (Канализационные)' },
-                { s: 'APM' as ShimgeSeries, label: 'APM Smart (Отопление класс А)' },
-                { s: 'BWJ' as ShimgeSeries, label: 'BWJ (Инверторные станции)' },
-              ].map((item) => (
-                <li key={item.s}>
+                { id: 'multistage-vertical' as ShimgeCategoryType, label: 'Многоступенчатые BLT / BLTE' },
+                { id: 'submersible-wells' as ShimgeCategoryType, label: 'Скважинные 4SGm & 200QJ' },
+                { id: 'drainage-sewage' as ShimgeCategoryType, label: 'Фекальные и дренажные WQ' },
+                { id: 'circulation-hvac' as ShimgeCategoryType, label: 'Циркуляционные APM / XPS' },
+                { id: 'surface-centrifugal' as ShimgeCategoryType, label: 'Поверхностные CPM / QB' },
+                { id: 'intelligent-booster' as ShimgeCategoryType, label: 'Станции давления BWJ / PZ' },
+              ].map((cat) => (
+                <li key={cat.id}>
                   <button
-                    onClick={() => selectSeries(item.s)}
+                    onClick={() => selectCategory(cat.id)}
                     className="text-slate-600 hover:text-[#0096A6] transition-colors"
                   >
-                    {item.label}
+                    {cat.label}
                   </button>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Site Navigation */}
+          {/* Column 3: Navigation */}
           <div className="lg:col-span-2 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
-              Меню
+              Информация
             </h4>
             <ul className="space-y-2 text-xs">
-              {[
-                { label: 'Главная', tab: 'home' as PageTab },
-                { label: 'Каталог насосов', tab: 'catalog' as PageTab },
-                { label: 'Отраслевые решения', tab: 'industries' as PageTab },
-                { label: 'О бренде SHIMGE', tab: 'about' as PageTab },
-                { label: 'Доставка и оплата', tab: 'delivery' as PageTab },
-                { label: 'Контакты', tab: 'contacts' as PageTab },
-              ].map((item) => (
-                <li key={item.tab}>
-                  <button
-                    onClick={() => { setActiveTab(item.tab); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="text-slate-600 hover:text-[#0096A6] transition-colors"
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              ))}
+              <li>
+                <button
+                  onClick={() => setActiveTab('about')}
+                  className="text-slate-600 hover:text-[#0096A6] transition-colors"
+                >
+                  О бренде SHIMGE
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setActiveTab('industries')}
+                  className="text-slate-600 hover:text-[#0096A6] transition-colors"
+                >
+                  Отраслевые решения
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setActiveTab('delivery')}
+                  className="text-slate-600 hover:text-[#0096A6] transition-colors"
+                >
+                  Доставка и гарантия
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => setActiveTab('contacts')}
+                  className="text-slate-600 hover:text-[#0096A6] transition-colors"
+                >
+                  Контакты и склад
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -131,7 +174,7 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Bottom Bar */}
+      {/* Bottom Bar (Без внешних ссылок) */}
       <div className="border-t border-slate-200 bg-white py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <div>
@@ -140,10 +183,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center space-x-4">
             <span>Все права защищены</span>
             <span>•</span>
-            <a href="https://ru.shimgepump.com/" target="_blank" rel="noopener noreferrer" className="text-[#0096A6] hover:underline flex items-center space-x-1">
-              <span>ru.shimgepump.com</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+            <span className="text-[#0096A6] font-bold">SHIMGE Pump Industry</span>
           </div>
         </div>
       </div>
