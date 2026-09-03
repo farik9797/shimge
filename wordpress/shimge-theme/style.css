@@ -1,0 +1,22 @@
+/*
+Theme Name: SHIMGE Uzbekistan Theme
+Theme URI: https://shimge-uzbekistan.uz/
+Author: SHIMGE Engineering Team
+Author URI: https://shimge-uzbekistan.uz/
+Description: Официальная премиум тема WordPress + WooCommerce для каталога насосного оборудования SHIMGE в Республике Узбекистан. RIVR-стиль, поддержка каталога насосов, график Q-H, модальные окна и экспорт в Excel.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: shimge
+Requires at least: 6.0
+Requires PHP: 7.4
+*/
+
+:root {
+  --shimge-teal: #0096A6;
+  --shimge-dark: #007682;
+  --shimge-light: #EBF8F9;
+  --shimge-border: #B5E7EC;
+  --shimge-cyan: #00D1E5;
+  --shimge-green: #00A859;
+}
